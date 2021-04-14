@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * A class representing shared characteristics of animals.
@@ -14,6 +16,10 @@ public abstract class Animal
     private Field field;
     // The animal's position in the field.
     private Location location;
+    // The fox's age.
+    private int age;
+    // A shared random number generator to control breeding.
+    private static final Random rand = Randomizer.getRandom();
     
     /**
      * Create a new animal at location in field.
@@ -26,6 +32,21 @@ public abstract class Animal
         alive = true;
         this.field = field;
         setLocation(location);
+        age = 0;
+    }
+    
+    /**
+     * Return the animal's age.
+     * @return The animal's age.
+     */
+    public abstract int getAge();
+           
+    /**
+     * Return the animal's age.
+     * @return The animal's age.
+     */
+    public void setAge(){
+        this.age = age;
     }
     
     /**
@@ -66,7 +87,7 @@ public abstract class Animal
     {
         return location;
     }
-    
+                        
     /**
      * Place the animal at the new location in the given field.
      * @param newLocation The animal's new location.
@@ -88,4 +109,62 @@ public abstract class Animal
     {
         return field;
     }
+    
+    /**
+     * Return the breeding age of the animal.
+     */
+    public abstract int getBreedingAge();
+
+    /**
+     * Return the breeding age.
+     */
+    public abstract int getMaxAge();
+    
+    /**
+     * Increase the age.
+     * This could result in the animal's death.
+     */
+    protected void incrementAge()
+    {
+        age++;
+        if(age > getMaxAge()) {
+            setDead();
+        }
+    }
+
+    /**
+     * A animal can breed if it has reached the breeding age.
+     * @return true if the rabbit can breed, false otherwise.
+     */
+    protected boolean canBreed()
+    {
+        return age >= getBreedingAge();
+    }
+        
+    /**
+     * A animal can breed if it has reached the breeding age.
+     * @return true if the rabbit can breed, false otherwise.
+     */
+    protected abstract double getBreedingProbability();
+    
+    /**
+     * A animal can breed if it has reached the breeding age.
+     * @return true if the rabbit can breed, false otherwise.
+     */
+    protected abstract int getMaxLitterSize();
+        
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
+    public int breed()
+    {
+        int births = 0;
+        if(canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+            births = rand.nextInt(getMaxLitterSize()) + 1;
+        }
+        return births;
+    }
+    
 }

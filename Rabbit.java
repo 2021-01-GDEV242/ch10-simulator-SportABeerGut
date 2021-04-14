@@ -13,13 +13,13 @@ public class Rabbit extends Animal
     // Characteristics shared by all rabbits (class variables).
 
     // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 4;
     // The age to which a rabbit can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static final double BREEDING_PROBABILITY = 0.28;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 6;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -68,15 +68,11 @@ public class Rabbit extends Animal
     }
 
     /**
-     * Increase the age.
-     * This could result in the rabbit's death.
+     * Return the animal's age.
+     * @return The animal's age.
      */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
+    public int getAge(){
+        return age;
     }
     
     /**
@@ -97,27 +93,39 @@ public class Rabbit extends Animal
             newRabbits.add(young);
         }
     }
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed()
-    {
-        int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
-     * @return true if the rabbit can breed, false otherwise.
+     * Return the breeding age of a rabbit.
+     * @return The breeding age of a rabbit.
      */
-    private boolean canBreed()
+    public int getBreedingAge()
     {
-        return age >= BREEDING_AGE;
+        return BREEDING_AGE;
+    }
+    
+    /**
+     * Return the maximum age of a rabbit.
+     */
+    public int getMaxAge()
+    {
+        return MAX_AGE;
+    }
+    
+    /**
+     * Return the maximum litter size of a rabbit.
+     * @return The maximum litter size of a rabbit.
+     */
+    public int getMaxLitterSize()
+    {
+        return MAX_LITTER_SIZE;
+    }
+        
+    /**
+     * Return the breeding probability of a rabbit.
+     * @return The breeding probability of a rabbit.
+     */
+    protected double getBreedingProbability()
+    {
+        return BREEDING_PROBABILITY;
     }
 }
